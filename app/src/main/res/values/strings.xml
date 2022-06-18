@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Speed Match - game</string>
+    <string name="hello_world">hello_world</string>
 </resources>
