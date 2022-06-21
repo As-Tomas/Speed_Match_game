@@ -10,6 +10,7 @@ import android.os.Bundle;
 public class GameActivity extends AppCompatActivity {
     private int time;
     private float points;
+    private TriangleFragment triangleFragment = new TriangleFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,11 +22,12 @@ public class GameActivity extends AppCompatActivity {
         points = 12;
 
 
+        setCurrentFragment(triangleFragment);
 
-        Intent retIntent=new Intent();
-        retIntent.putExtra("Points", points);
-        setResult(Activity.RESULT_OK,retIntent);
-        finish();
+//        Intent retIntent=new Intent();
+//        retIntent.putExtra("Points", points);
+//        setResult(Activity.RESULT_OK,retIntent);
+//        finish();
     }
 
     public void setCurrentFragment(Fragment fragment){
