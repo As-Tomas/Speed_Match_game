@@ -11,6 +11,7 @@ public class GameActivity extends AppCompatActivity {
     private int time;
     private float points;
     private TriangleFragment triangleFragment = new TriangleFragment();
+    private SquareFragment squareFragment = new SquareFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
