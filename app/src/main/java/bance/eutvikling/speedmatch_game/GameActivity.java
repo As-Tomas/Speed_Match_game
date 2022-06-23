@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -59,6 +60,7 @@ public class GameActivity extends AppCompatActivity {
                 previousShape = shapeNumber;
                 shapeNumber = random.nextInt(max - min + 1) + min;
                 setCurrentFragment(ShapesFragments.get(shapeNumber));
+                checkResult();
             }
         });
 
@@ -72,15 +74,10 @@ public class GameActivity extends AppCompatActivity {
                 previousShape = shapeNumber;
                 shapeNumber = random.nextInt(max - min + 1) + min;
                 setCurrentFragment(ShapesFragments.get(shapeNumber));
+                checkResult();
             }
         });
 
-//        if(points > 10){
-//            Intent retIntent=new Intent();
-//            retIntent.putExtra("Points", points);
-//            setResult(Activity.RESULT_OK,retIntent);
-//            finish();
-//        }
     }
 
     public void setCurrentFragment(Fragment fragment){
@@ -90,5 +87,15 @@ public class GameActivity extends AppCompatActivity {
                 .replace(R.id.frame, fragment)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    public void checkResult(){
+        Toast.makeText(this," Points: "+ points, Toast.LENGTH_SHORT).show();
+        if(points > 2){
+            Intent retIntent=new Intent();
+            retIntent.putExtra("Points", points);
+            setResult(Activity.RESULT_OK,retIntent);
+            finish();
+        }
     }
 }

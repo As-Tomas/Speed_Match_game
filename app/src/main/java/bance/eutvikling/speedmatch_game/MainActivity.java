@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onActivityResult(ActivityResult result) {
                         if(result.getResultCode()== Activity.RESULT_OK){
+                            setContentView(R.layout.activity_main);
                             Intent intent=result.getData();
                             float points=intent.getFloatExtra("Points",0);
                             TextView resultPoints = findViewById(R.id.result);
