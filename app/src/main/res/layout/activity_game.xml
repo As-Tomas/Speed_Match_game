@@ -4,6 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="00:00"
+        android:layout_alignParentEnd="true"
+        />
+
     <FrameLayout
         android:id="@+id/frame"
         android:layout_width="match_parent"
@@ -11,9 +20,11 @@
         android:layout_centerVertical="true"/>
 
     <TextView
-        android:layout_below="@+id/frame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/frame"
+        android:layout_margin="16dp"
+        android:textSize="18dp"
         android:text="Does this symbol match the previous symbol?" />
 
     <LinearLayout
