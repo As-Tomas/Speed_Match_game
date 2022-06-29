@@ -97,7 +97,7 @@ public class GameActivity extends AppCompatActivity {
 
     //start timer function
     void startTimer() {
-        cTimer = new CountDownTimer(60000, 1000) {
+        cTimer = new CountDownTimer(10000, 1000) {
             public void onTick(long millisUntilFinished) {
                 mTimeField.setText("seconds remaining: " + millisUntilFinished / 1000);
 

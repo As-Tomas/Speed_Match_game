@@ -14,12 +14,12 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity {
     // Game: different shapes slides from right to left, stops in the middle, player must chose buttons
@@ -28,9 +28,10 @@ public class MainActivity extends AppCompatActivity {
 
     ActivityResultLauncher<Intent> game_launcher;
     public ArrayList<String> results;
+    public ArrayList<String> resultsToDisplay;
     ListView listView;
 
-    String[] temp ={"temp", "arr"};
+    String[] temp = new String[]{"temp", "arr"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,15 +45,16 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if(results != null){
+        if(resultsToDisplay != null){
 
         }
-        listView = findViewById(R.id.list);
+        listView =  (ListView) findViewById(R.id.list);
         ArrayAdapter adapter=new ArrayAdapter<String>(
                 this,
                 android.R.layout.simple_list_item_1,
-                temp
+                resultsToDisplay
         );
+        listView.setAdapter(adapter);
 
 
         game_launcher =registerForActivityResult(
