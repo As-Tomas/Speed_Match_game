@@ -32,8 +32,6 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<String> resultsToDisplay;
     ListView listView;
 
-    String[] temp = new String[]{"temp", "arr"};
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -46,16 +44,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        resultsToDisplay = new ArrayList<String>();
-        Collections.sort(results);
-
-        for(int i=0; i < 10; i++){
-            if(results.size() > i){
-                resultsToDisplay.add("Nr " + (i+1) + ":   " + results.get(i));
-            } else {
-                break;
-            }
-        }
+        updateResultsToDisplay();
 
         listView =  (ListView) findViewById(R.id.list);
         ArrayAdapter adapter=new ArrayAdapter<String>(
@@ -78,13 +67,9 @@ public class MainActivity extends AppCompatActivity {
                             //Save result and display it
                             float points=intent.getFloatExtra("Points",0);
                             saveDB(points);
-//TODO display as list to top 10
 
                             adapter.notifyDataSetChanged();
 
-
-                            TextView resultPoints = findViewById(R.id.result);
-                            resultPoints.setText("Points :  "+points);
                         }
                     }
                 }
@@ -101,6 +86,20 @@ public class MainActivity extends AppCompatActivity {
                 game_launcher.launch(intent);
             }
         });
+    }
+
+    public void updateResultsToDisplay(){
+
+        resultsToDisplay = new ArrayList<String>();
+        Collections.sort(results);
+
+        for(int i=0; i < 10; i++){
+            if(results.size() > i){
+                resultsToDisplay.add("Nr " + (i+1) + ":   " + results.get(i));
+            } else {
+                break;
+            }
+        }
     }
 
     public void saveDB(float points){
@@ -131,8 +130,5 @@ public class MainActivity extends AppCompatActivity {
             }
             results=new ArrayList<String>(set);
         }
-
     }
-
-
 }
