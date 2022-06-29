@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -45,9 +46,17 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if(resultsToDisplay != null){
+        resultsToDisplay = new ArrayList<String>();
+        Collections.sort(results);
 
+        for(int i=0; i < 10; i++){
+            if(results.size() > i){
+                resultsToDisplay.add("Nr " + (i+1) + ":   " + results.get(i));
+            } else {
+                break;
+            }
         }
+
         listView =  (ListView) findViewById(R.id.list);
         ArrayAdapter adapter=new ArrayAdapter<String>(
                 this,
@@ -71,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
                             saveDB(points);
 //TODO display as list to top 10
 
+                            adapter.notifyDataSetChanged();
 
 
                             TextView resultPoints = findViewById(R.id.result);
