@@ -4,13 +4,17 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -61,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onActivityResult(ActivityResult result) {
                         if(result.getResultCode()== Activity.RESULT_OK){
-                            setContentView(R.layout.activity_main);
                             Intent intent=result.getData();
 
                             //Save result and display it
@@ -69,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
                             saveDB(points);
 
                             adapter.notifyDataSetChanged();
+
+                            TextView resultView = findViewById(R.id.result);
+                            resultView.setText(" your todays points is: " + points);
 
                         }
                     }
@@ -81,18 +87,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                //Intent i=new Intent( , GameActivity.class);
-                Intent intent = new Intent(MainActivity.this, GameActivity.class);
+                Intent intent = new Intent(view.getContext(), GameActivity.class);
                 game_launcher.launch(intent);
+
             }
         });
     }
+
+
 
     public void updateResultsToDisplay(){
 
         resultsToDisplay = new ArrayList<String>();
         Collections.sort(results);
 
+        //limit to 10 results
         for(int i=0; i < 10; i++){
             if(results.size() > i){
                 resultsToDisplay.add("Nr " + (i+1) + ":   " + results.get(i));
