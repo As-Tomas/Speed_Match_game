@@ -73,11 +73,11 @@ public class MainActivity extends AppCompatActivity {
 
                             //Save result and display it
                             int points=intent.getIntExtra("Points",0);
-                            saveDB(points);
 
                             updateResultsToDisplay(points);
 
                             adapter.notifyDataSetChanged();
+                            saveDB(points);
 
                             TextView resultView = findViewById(R.id.result);
                             resultView.setText(" your todays points is: " + points);
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         resultsToDisplay.clear();
         resultsToDisplayInt = new ArrayList();
 
-        if (newPoints == -1 ){
+        if (newPoints == -1 ){ // for view constructor calls
             //limit to 10 results
             for(int i=0; i < 10; i++){
                 if(results.size() > i){
@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
             }
             if(resultsToDisplayInt.size() > 1){
                 Collections.sort(resultsToDisplayInt);
+                Collections.reverse(resultsToDisplayInt);
             }
 
             for(int i=0; i < 10; i++){
@@ -139,8 +140,10 @@ public class MainActivity extends AppCompatActivity {
             }
             if(resultsToDisplayInt.size() > 1){
                 Collections.sort(resultsToDisplayInt);
+                Collections.reverse(resultsToDisplayInt);
             }
 
+            //search for position in list of results to set new result
             int idx = Collections.binarySearch(resultsToDisplayInt, newPoints);
             if(idx < 0) {
                 idx += 1;
