@@ -33,8 +33,10 @@ public class MainActivity extends AppCompatActivity {
 
     ActivityResultLauncher<Intent> game_launcher;
     public ArrayList<String> results;
+    public ArrayList<Integer> resultsToDisplayInt;
     public ArrayList<String> resultsToDisplay;
     ListView listView;
+    ArrayAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,16 +44,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        resultsToDisplay = new ArrayList();
+
         try {
             readDB();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        updateResultsToDisplay();
+        updateResultsToDisplay( -1);
 
         listView =  (ListView) findViewById(R.id.list);
-        ArrayAdapter adapter=new ArrayAdapter<String>(
+        adapter=new ArrayAdapter<String>(
                 this,
                 android.R.layout.simple_list_item_1,
                 resultsToDisplay
@@ -68,8 +72,10 @@ public class MainActivity extends AppCompatActivity {
                             Intent intent=result.getData();
 
                             //Save result and display it
-                            float points=intent.getFloatExtra("Points",0);
+                            int points=intent.getIntExtra("Points",0);
                             saveDB(points);
+
+                            updateResultsToDisplay(points);
 
                             adapter.notifyDataSetChanged();
 
@@ -96,22 +102,66 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public void updateResultsToDisplay(){
+    public void updateResultsToDisplay(int newPoints){
+        resultsToDisplay.clear();
+        resultsToDisplayInt = new ArrayList();
 
-        resultsToDisplay = new ArrayList<String>();
-        Collections.sort(results);
+        if (newPoints == -1 ){
+            //limit to 10 results
+            for(int i=0; i < 10; i++){
+                if(results.size() > i){
+                    resultsToDisplayInt.add(Integer.parseInt(results.get(i)));
+                } else {
+                    break;
+                }
+            }
+            if(resultsToDisplayInt.size() > 1){
+                Collections.sort(resultsToDisplayInt);
+            }
 
-        //limit to 10 results
-        for(int i=0; i < 10; i++){
-            if(results.size() > i){
-                resultsToDisplay.add("Nr " + (i+1) + ":   " + results.get(i));
-            } else {
-                break;
+            for(int i=0; i < 10; i++){
+                if(results.size() > i){
+                    resultsToDisplay.add("Nr " + (i+1) + ":   " + resultsToDisplayInt.get(i));
+                } else {
+                    break;
+                }
+            }
+
+        } else if (results.size() > 0){
+
+            //limit to 10 results
+            for(int i=0; i < 10; i++){
+                if(results.size() > i){
+                    resultsToDisplayInt.add(Integer.parseInt(results.get(i)));
+                } else {
+                    break;
+                }
+            }
+            if(resultsToDisplayInt.size() > 1){
+                Collections.sort(resultsToDisplayInt);
+            }
+
+            int idx = Collections.binarySearch(resultsToDisplayInt, newPoints);
+            if(idx < 0) {
+                idx += 1;
+                idx *= -1;
+            }
+            //resultsToDisplayInt.add(idx, newPoints);
+            for(int i=0; i < 10; i++){
+                if(i == idx){
+                    resultsToDisplay.add(idx,"New Nr " + (i+1) + ":   " + newPoints);
+                } else if(resultsToDisplayInt.size() > i){
+                    resultsToDisplay.add("Nr " + (i+1) + ":   " + resultsToDisplayInt.get(i));
+
+                } else {
+                    break;
+                }
             }
         }
+
     }
 
-    public void saveDB(float points){
+    public void saveDB(int points){
         SharedPreferences sharedPrefs = getSharedPreferences("speedMatchPoints", MODE_PRIVATE);
         SharedPreferences.Editor editor=sharedPrefs.edit();
 
@@ -131,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
     public void readDB(){
         SharedPreferences sharedPrefs = getSharedPreferences("speedMatchPoints", MODE_PRIVATE);
         Set<String> set = sharedPrefs.getStringSet("Points", null);
-        if(results == null && set.size() == 0){
+        if(results == null && set == null){
             results=new ArrayList<String>();
         } else {
             if(results != null ) {

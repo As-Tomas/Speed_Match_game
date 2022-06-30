@@ -21,7 +21,7 @@ import java.util.Random;
 
 public class GameActivity extends AppCompatActivity {
     private int time;
-    private float points;
+    private int points;
     private TriangleFragment triangleFragment = new TriangleFragment();
     private SquareFragment squareFragment = new SquareFragment();
     private CircleFragment circleFragment = new CircleFragment();
