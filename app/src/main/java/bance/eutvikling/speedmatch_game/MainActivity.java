@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
                             adapter.notifyDataSetChanged();
                             saveDB(points);
 
+                            //temp displays result
                             TextView resultView = findViewById(R.id.result);
                             resultView.setText(" your todays points is: " + points);
 
@@ -144,11 +145,15 @@ public class MainActivity extends AppCompatActivity {
             }
 
             //search for position in list of results to set new result
-            int idx = Collections.binarySearch(resultsToDisplayInt, newPoints);
-            if(idx < 0) {
-                idx += 1;
-                idx *= -1;
+            int idx = 0;
+            for (int i = 0; i < resultsToDisplayInt.size(); i++) {
+                if (resultsToDisplayInt.get(i)<newPoints) {
+                    break;
+                }
+                idx++;
             }
+            // set new result before old one
+            if(idx > 0){ idx--; }
             //resultsToDisplayInt.add(idx, newPoints);
             for(int i=0; i < 10; i++){
                 if(i == idx){
