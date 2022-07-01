@@ -79,10 +79,6 @@ public class MainActivity extends AppCompatActivity {
                             adapter.notifyDataSetChanged();
                             saveDB(points);
 
-                            //temp displays result
-                            TextView resultView = findViewById(R.id.result);
-                            resultView.setText(" your todays points is: " + points);
-
                         }
                     }
                 }
