@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -37,6 +38,8 @@ public class GameActivity extends AppCompatActivity {
 
     CountDownTimer cTimer = null;
     TextView mTimeField;
+    Handler handler = new Handler();
+    Runnable runnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,17 @@ public class GameActivity extends AppCompatActivity {
         previousShape = shapeNumber;
 
         setCurrentFragment(shapeNumber);
+
+        // first move auto after 1,2s
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                shapeNumber = random.nextInt(max - min + 1) + min;
+                previousShape = shapeNumber;
+                setCurrentFragment(shapeNumber);
+            }
+        };
+        handler.postDelayed(runnable, 1200);
 
         Button btnNo = findViewById(R.id.btnNo);
         btnNo.setOnClickListener(new View.OnClickListener() {
@@ -132,6 +146,7 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        handler.removeCallbacks(runnable);
         cTimer.cancel();
     }
 }
