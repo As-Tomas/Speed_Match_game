@@ -22,9 +22,9 @@ import java.util.Random;
 public class GameActivity extends AppCompatActivity {
     private int time;
     private int points;
-    private TriangleFragment triangleFragment = new TriangleFragment();
-    private SquareFragment squareFragment = new SquareFragment();
-    private CircleFragment circleFragment = new CircleFragment();
+    private TriangleFragment triangleFragment ;
+    private SquareFragment squareFragment ;
+    private CircleFragment circleFragment ;
 
     private ArrayList <Fragment> ShapesFragments = new ArrayList();
 
@@ -45,15 +45,10 @@ public class GameActivity extends AppCompatActivity {
 
         //play game  / return points
 
-
-        ShapesFragments.add(triangleFragment);
-        ShapesFragments.add(squareFragment);
-        ShapesFragments.add(circleFragment);
-
         shapeNumber = random.nextInt(max - min + 1) + min;
         previousShape = shapeNumber;
 
-        setCurrentFragment(ShapesFragments.get(shapeNumber));
+        setCurrentFragment(shapeNumber);
 
         Button btnNo = findViewById(R.id.btnNo);
         btnNo.setOnClickListener(new View.OnClickListener() {
@@ -64,7 +59,7 @@ public class GameActivity extends AppCompatActivity {
                 }
                 previousShape = shapeNumber;
                 shapeNumber = random.nextInt(max - min + 1) + min;
-                setCurrentFragment(ShapesFragments.get(shapeNumber));
+                setCurrentFragment(shapeNumber);
             }
         });
 
@@ -77,7 +72,7 @@ public class GameActivity extends AppCompatActivity {
                 }
                 previousShape = shapeNumber;
                 shapeNumber = random.nextInt(max - min + 1) + min;
-                setCurrentFragment(ShapesFragments.get(shapeNumber));
+                setCurrentFragment(shapeNumber);
             }
         });
 
@@ -86,10 +81,23 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-    public void setCurrentFragment(Fragment fragment){
+    public void setCurrentFragment(int shapeNumber){
 
-        getSupportFragmentManager()
-                .beginTransaction()
+        Fragment fragment;
+        if(shapeNumber == 0){
+            fragment = new TriangleFragment();
+        } else if (shapeNumber == 1){
+            fragment = new SquareFragment();
+        } else {
+            fragment = new CircleFragment();
+        }
+
+
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(
+                        R.anim.slide_in,  // enter
+                        R.anim.slide_out  // popExit
+                )
                 .replace(R.id.frame, fragment)
                 .addToBackStack(null)
                 .commit();
