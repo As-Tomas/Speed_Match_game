@@ -19,9 +19,13 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.Random;
-
+//TODO result fragment show up for few seconds.
+//TODO addToBackStack stack true to allow quit game to main activity
+//TODO user allow chose level time
+//TODO function for points calculation with involving sets of right / wrong answers
+//TODO sounds on change fragment or push button
 public class GameActivity extends AppCompatActivity {
-    private int time;
+    private int time = 60000; //60 seconds
     private int points;
     private TriangleFragment triangleFragment ;
     private SquareFragment squareFragment ;
@@ -58,7 +62,7 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void run() {
                 shapeNumber = random.nextInt(max - min + 1) + min;
-                previousShape = shapeNumber;
+                //previousShape = shapeNumber;
                 setCurrentFragment(shapeNumber);
             }
         };
@@ -119,7 +123,7 @@ public class GameActivity extends AppCompatActivity {
 
     //start timer function
     void startTimer() {
-        cTimer = new CountDownTimer(10000, 1000) {
+        cTimer = new CountDownTimer(time, 1000) {
             public void onTick(long millisUntilFinished) {
                 mTimeField.setText("seconds remaining: " + millisUntilFinished / 1000);
 

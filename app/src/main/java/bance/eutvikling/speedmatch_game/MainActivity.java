@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     // Game: different shapes slides from right to left, stops in the middle, player must chose buttons
     // yes or no to answer  Does this symbol match the previous symbol.
     // score calculates by amount of right answers in a given time.
+    //TODO more shapes to differ game levels.
+
 
     ActivityResultLauncher<Intent> game_launcher;
     public ArrayList<String> results;
@@ -153,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
             //resultsToDisplayInt.add(idx, newPoints);
             for(int i=0; i < 10; i++){
                 if(i == idx){
-                    resultsToDisplay.add(idx,"New Nr " + (i+1) + ":   " + newPoints);
+                    resultsToDisplay.add(idx,"New result Nr " + (i+1) + ":   " + newPoints);
                 } else if(resultsToDisplayInt.size() > i){
                     resultsToDisplay.add("Nr " + (i+1) + ":   " + resultsToDisplayInt.get(i));
 
