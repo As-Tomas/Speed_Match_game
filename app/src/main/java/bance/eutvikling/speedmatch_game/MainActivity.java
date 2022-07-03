@@ -104,10 +104,11 @@ public class MainActivity extends AppCompatActivity {
     public void updateResultsToDisplay(int newPoints){
         resultsToDisplay.clear();
         resultsToDisplayInt = new ArrayList();
+        int resultDisplayNumber = 5;
 
         if (newPoints == -1 ){ // for view constructor calls
             //limit to 10 results
-            for(int i=0; i < 10; i++){
+            for(int i=0; i < resultDisplayNumber; i++){
                 if(results.size() > i){
                     resultsToDisplayInt.add(Integer.parseInt(results.get(i)));
                 } else {
@@ -119,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                 Collections.reverse(resultsToDisplayInt);
             }
 
-            for(int i=0; i < 10; i++){
+            for(int i=0; i < resultDisplayNumber; i++){
                 if(results.size() > i){
                     resultsToDisplay.add("Nr " + (i+1) + ":   " + resultsToDisplayInt.get(i));
                 } else {
@@ -130,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (results.size() > 0){
 
             //limit to 10 results
-            for(int i=0; i < 10; i++){
+            for(int i=0; i < resultDisplayNumber; i++){
                 if(results.size() > i){
                     resultsToDisplayInt.add(Integer.parseInt(results.get(i)));
                 } else {
@@ -153,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
             // set new result before old one
             if(idx > 0){ idx--; }
             //resultsToDisplayInt.add(idx, newPoints);
-            for(int i=0; i < 10; i++){
+            for(int i=0; i < resultDisplayNumber; i++){
                 if(i == idx){
                     resultsToDisplay.add(idx,"New result Nr " + (i+1) + ":   " + newPoints);
                 } else if(resultsToDisplayInt.size() > i){
