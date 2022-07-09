@@ -12,6 +12,15 @@ import android.widget.Toast;
 
 public class PopUpWindow {
 
+    private static String result;
+
+    public PopUpWindow() {
+    }
+
+    public PopUpWindow(String result) {
+        this.result = result;
+    }
+
     //PopupWindow display method
 
     public void showPopupWindow(final View view) {
@@ -37,7 +46,7 @@ public class PopUpWindow {
         //Initialize the elements of our window, install the handler
 
         TextView test2 = popupView.findViewById(R.id.message);
-        test2.setText("Rezutatas");
+        test2.setText("Your Score: " + result);
 
 //        Button buttonEdit = popupView.findViewById(R.id.messageButton);
 //        buttonEdit.setOnClickListener(new View.OnClickListener() {

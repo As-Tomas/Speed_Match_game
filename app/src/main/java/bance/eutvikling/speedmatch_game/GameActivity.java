@@ -53,6 +53,7 @@ public class GameActivity extends AppCompatActivity {
     TextView mTimeField;
     Handler handler = new Handler();
     Runnable runnable;
+    Runnable runnableFinish;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,24 +145,25 @@ public class GameActivity extends AppCompatActivity {
 
                 //Display popup
                 mRelativeLayout = (RelativeLayout) findViewById(R.id.rl);
-                PopUpWindow popUpClass = new PopUpWindow();
+                PopUpWindow popUpClass = new PopUpWindow(String.valueOf(points));
                 popUpClass.showPopupWindow(mRelativeLayout);
 
 
-//                runnable = new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        mPopupWindow.dismiss();
-//                    }
-//                };
-//                handler.postDelayed(runnable, 1200);
-//
-//
-//
-//                Intent retIntent=new Intent();
-//                retIntent.putExtra("Points", points);
-//                setResult(Activity.RESULT_OK,retIntent);
-//                finish();
+                runnableFinish = new Runnable() {
+                    @Override
+                    public void run() {
+                        mPopupWindow.dismiss();
+                        Intent retIntent=new Intent();
+                        retIntent.putExtra("Points", points);
+                        setResult(Activity.RESULT_OK,retIntent);
+                        finish();
+                    }
+                };
+                handler.postDelayed(runnableFinish, 5000);
+
+
+
+
             }
         };
         cTimer.start();
