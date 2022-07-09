@@ -6,12 +6,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,8 +31,11 @@ import java.util.Random;
 //TODO function for points calculation with involving sets of right / wrong answers
 //TODO sounds on change fragment or push button
 public class GameActivity extends AppCompatActivity {
-    private int time = 60000; //60 seconds
+    private int time = 3000; //60 seconds
     private int points;
+    private Context mContext;
+    private PopupWindow mPopupWindow;
+    private RelativeLayout mRelativeLayout;
     private TriangleFragment triangleFragment ;
     private SquareFragment squareFragment ;
     private CircleFragment circleFragment ;
@@ -132,10 +141,27 @@ public class GameActivity extends AppCompatActivity {
                 mTimeField.setText("done!");
                 cancelTimer();
                 //TODO add finish fragment, her should display finish fragment
-                Intent retIntent=new Intent();
-                retIntent.putExtra("Points", points);
-                setResult(Activity.RESULT_OK,retIntent);
-                finish();
+
+                //Display popup
+                mRelativeLayout = (RelativeLayout) findViewById(R.id.rl);
+                PopUpWindow popUpClass = new PopUpWindow();
+                popUpClass.showPopupWindow(mRelativeLayout);
+
+
+//                runnable = new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        mPopupWindow.dismiss();
+//                    }
+//                };
+//                handler.postDelayed(runnable, 1200);
+//
+//
+//
+//                Intent retIntent=new Intent();
+//                retIntent.putExtra("Points", points);
+//                setResult(Activity.RESULT_OK,retIntent);
+//                finish();
             }
         };
         cTimer.start();
