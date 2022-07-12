@@ -1,5 +1,7 @@
 package bance.eutvikling.speedmatch_game;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +13,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,8 +34,13 @@ import java.util.Random;
 //TODO function for points calculation with involving sets of right / wrong answers
 //TODO sounds on change fragment or push button
 public class GameActivity extends AppCompatActivity {
-    private int time = 3000; //60 seconds
+    private int time = 60000; //60 seconds
     private int points;
+    private int fiveInTheRow = 0;
+    private int tenInTheRow = 0;
+    private int totalWrong = 0;
+    private int totalShownCards = 0;
+
     private Context mContext;
     private PopupWindow mPopupWindow;
     private RelativeLayout mRelativeLayout;
@@ -82,8 +90,27 @@ public class GameActivity extends AppCompatActivity {
         btnNo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //right
                 if(previousShape != shapeNumber){
                     points++;
+                    fiveInTheRow++;
+                    tenInTheRow++;
+
+                    if(fiveInTheRow == 5){
+                        points += 5;
+                        fiveInTheRow = 0;
+                    }
+                    if(tenInTheRow == 10){
+                        points += 10;
+                        tenInTheRow = 0;
+                    }
+
+                    //wrong
+                } else {
+                    totalWrong++;
+                    points -= 2;
+                    fiveInTheRow = 0;
+                    tenInTheRow = 0;
                 }
                 previousShape = shapeNumber;
                 shapeNumber = random.nextInt(max - min + 1) + min;
@@ -95,8 +122,27 @@ public class GameActivity extends AppCompatActivity {
         btnYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //right
                 if(previousShape == shapeNumber){
                     points++;
+                    fiveInTheRow++;
+                    tenInTheRow++;
+
+                    if(fiveInTheRow == 5){
+                        points += 5;
+                        fiveInTheRow = 0;
+                    }
+                    if(tenInTheRow == 10){
+                        points += 10;
+                        tenInTheRow = 0;
+                    }
+
+                    //wrong
+                }else {
+                    totalWrong++;
+                    points -= 2;
+                    fiveInTheRow = 0;
+                    tenInTheRow = 0;
                 }
                 previousShape = shapeNumber;
                 shapeNumber = random.nextInt(max - min + 1) + min;
@@ -120,7 +166,6 @@ public class GameActivity extends AppCompatActivity {
             fragment = new CircleFragment();
         }
 
-
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(
                         R.anim.slide_in,  // enter
@@ -129,6 +174,9 @@ public class GameActivity extends AppCompatActivity {
                 .replace(R.id.frame, fragment)
                 .addToBackStack(null)
                 .commit();
+
+        totalShownCards++;
+
     }
 
     //start timer function
@@ -141,6 +189,22 @@ public class GameActivity extends AppCompatActivity {
             public void onFinish() {
                 mTimeField.setText("done!");
                 cancelTimer();
+
+                // summarize points
+                if(points > 0){
+                    int wrongAnswersPercents = (int) totalWrong * 100 / totalShownCards;
+                    Log.d(TAG, "points: "+ String.valueOf(points));
+                    Log.d(TAG, "totalWrong: "+ String.valueOf(totalWrong));
+                    Log.d(TAG, "totalShownCards: "+ String.valueOf(totalShownCards));
+                    Log.d(TAG, "wrongAnswersPercents: "+ String.valueOf(wrongAnswersPercents));
+
+                    double startScore = points;
+                    points = (int) Math.round(startScore - ((((double) wrongAnswersPercents) / 100) * startScore));
+                    Log.d(TAG, "points: "+ String.valueOf(points));
+                } else {
+                    points = 0;
+                }
+
                 //TODO add finish fragment, her should display finish fragment
 
                 //Display popup
@@ -152,7 +216,8 @@ public class GameActivity extends AppCompatActivity {
                 runnableFinish = new Runnable() {
                     @Override
                     public void run() {
-                        mPopupWindow.dismiss();
+                        //mPopupWindow.dismiss();
+
                         Intent retIntent=new Intent();
                         retIntent.putExtra("Points", points);
                         setResult(Activity.RESULT_OK,retIntent);
