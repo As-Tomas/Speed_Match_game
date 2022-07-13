@@ -36,6 +36,7 @@ import java.util.Random;
 public class GameActivity extends AppCompatActivity {
     private int time = 60000; //60 seconds
     private int points;
+    private int incrementStep = 1;
     private int fiveInTheRow = 0;
     private int tenInTheRow = 0;
     private int totalWrong = 0;
@@ -92,23 +93,22 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //right
                 if(previousShape != shapeNumber){
-                    points++;
+                    points += 1 * incrementStep;
                     fiveInTheRow++;
                     tenInTheRow++;
 
-                    if(fiveInTheRow == 5){
-                        points += 5;
+                    if(fiveInTheRow == 4){
+                        incrementStep++;
                         fiveInTheRow = 0;
                     }
                     if(tenInTheRow == 10){
-                        points += 10;
+                        points += incrementStep * incrementStep;
                         tenInTheRow = 0;
                     }
 
                     //wrong
                 } else {
                     totalWrong++;
-                    points -= 2;
                     fiveInTheRow = 0;
                     tenInTheRow = 0;
                 }
@@ -124,23 +124,22 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //right
                 if(previousShape == shapeNumber){
-                    points++;
+                    points += 1 * incrementStep;
                     fiveInTheRow++;
                     tenInTheRow++;
 
-                    if(fiveInTheRow == 5){
-                        points += 5;
+                    if(fiveInTheRow == 4){
+                        incrementStep++;
                         fiveInTheRow = 0;
                     }
                     if(tenInTheRow == 10){
-                        points += 10;
+                        points += incrementStep * incrementStep;
                         tenInTheRow = 0;
                     }
 
                     //wrong
                 }else {
                     totalWrong++;
-                    points -= 2;
                     fiveInTheRow = 0;
                     tenInTheRow = 0;
                 }
