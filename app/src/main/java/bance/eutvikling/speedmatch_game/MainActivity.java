@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         int resultDisplayNumber = 5;
 
         if (newPoints == -1 ){ // for view constructor calls
-            //limit to 10 results
+            //limit to resultDisplayNumber
             for(int i=0; i < resultDisplayNumber; i++){
                 if(results.size() > i){
                     resultsToDisplayInt.add(Integer.parseInt(results.get(i)));
@@ -146,17 +146,19 @@ public class MainActivity extends AppCompatActivity {
             //search for position in list of results to set new result
             int idx = 0;
             for (int i = 0; i < resultsToDisplayInt.size(); i++) {
+                idx++;
                 if (resultsToDisplayInt.get(i)<newPoints) {
                     break;
                 }
-                idx++;
             }
             // set new result before old one
             if(idx > 0){ idx--; }
             //resultsToDisplayInt.add(idx, newPoints);
             for(int i=0; i < resultDisplayNumber; i++){
-                if(i == idx){
+                if(i == idx ){
+                    //TODO bug here overrides old with new one
                     resultsToDisplay.add(idx,"New result Nr " + (i+1) + ":   " + newPoints);
+                    //resultsToDisplay.add("Nr " + (i+1) + ":   " + resultsToDisplayInt.get(i));
                 } else if(resultsToDisplayInt.size() > i){
                     resultsToDisplay.add("Nr " + (i+1) + ":   " + resultsToDisplayInt.get(i));
 
@@ -177,6 +179,21 @@ public class MainActivity extends AppCompatActivity {
         }
 
         results.add(String.valueOf(points));
+
+        if(results.size() > 1){
+            ArrayList sortedResults = new ArrayList();
+            for(String rez : results){
+                sortedResults.add(Integer.valueOf(rez));
+            }
+
+            Collections.sort(sortedResults);
+            Collections.reverse(sortedResults);
+
+            results.clear();
+            for(int i = 0; i < sortedResults.size(); i++){
+                results.add(sortedResults.get(i).toString());
+            }
+        }
 
         Set<String> set  = new HashSet<String>();
         set.addAll(results);
