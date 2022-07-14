@@ -14,6 +14,7 @@ import android.widget.Toast;
 public class PopUpWindow {
 
     private static String result;
+    private static PopupWindow popupWindow;
 
     public PopUpWindow() {
     }
@@ -39,7 +40,7 @@ public class PopUpWindow {
         boolean focusable = true;
 
         //Create a window with our parameters
-        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+        popupWindow = new PopupWindow(popupView, width, height, focusable);
 
         if(Build.VERSION.SDK_INT>=21){
             popupWindow.setElevation(5.0f);
@@ -77,6 +78,11 @@ public class PopUpWindow {
                 return true;
             }
         });
+
+    }
+
+    public void dismiss() {
+        popupWindow.dismiss();
     }
 
 }

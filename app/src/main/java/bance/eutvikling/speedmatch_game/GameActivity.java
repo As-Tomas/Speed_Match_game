@@ -28,13 +28,11 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.Random;
-//TODO result fragment show up for few seconds.
 //TODO addToBackStack stack true to allow quit game to main activity
 //TODO user allow chose level time
-//TODO function for points calculation with involving sets of right / wrong answers
 //TODO sounds on change fragment or push button
 public class GameActivity extends AppCompatActivity {
-    private int time = 60000; //60 seconds
+    private int time = 5000; //60 seconds
     private int points;
     private int incrementStep = 1;
     private int fiveInTheRow = 0;
@@ -215,7 +213,8 @@ public class GameActivity extends AppCompatActivity {
                 runnableFinish = new Runnable() {
                     @Override
                     public void run() {
-                        //mPopupWindow.dismiss();
+
+                        popUpClass.dismiss();
 
                         Intent retIntent=new Intent();
                         retIntent.putExtra("Points", points);
@@ -224,10 +223,6 @@ public class GameActivity extends AppCompatActivity {
                     }
                 };
                 handler.postDelayed(runnableFinish, 5000);
-
-
-
-
             }
         };
         cTimer.start();
