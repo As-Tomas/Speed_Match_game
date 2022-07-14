@@ -40,14 +40,7 @@ public class GameActivity extends AppCompatActivity {
     private int totalWrong = 0;
     private int totalShownCards = 0;
 
-    private Context mContext;
-    private PopupWindow mPopupWindow;
     private RelativeLayout mRelativeLayout;
-    private TriangleFragment triangleFragment ;
-    private SquareFragment squareFragment ;
-    private CircleFragment circleFragment ;
-
-    private ArrayList <Fragment> ShapesFragments = new ArrayList();
 
     private Random random = new Random();
     private int min = 0;
