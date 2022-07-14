@@ -169,7 +169,6 @@ public class GameActivity extends AppCompatActivity {
                         R.anim.slide_out  // popExit
                 )
                 .replace(R.id.frame, fragment)
-                .addToBackStack(null)
                 .commit();
 
         totalShownCards++;
