@@ -28,7 +28,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.Random;
-//TODO addToBackStack stack true to allow quit game to main activity
+
 //TODO user allow chose level time
 //TODO sounds on change fragment or push button
 public class GameActivity extends AppCompatActivity {
