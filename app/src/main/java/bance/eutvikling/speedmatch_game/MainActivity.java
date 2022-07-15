@@ -106,6 +106,8 @@ public class MainActivity extends AppCompatActivity {
         resultsToDisplayInt = new ArrayList();
         int resultDisplayNumber = 5;
 
+        SortResults();
+
         if (newPoints == -1 ){ // for view constructor calls
             //limit to resultDisplayNumber
             for(int i=0; i < resultDisplayNumber; i++){
@@ -180,21 +182,6 @@ public class MainActivity extends AppCompatActivity {
 
         results.add(String.valueOf(points));
 
-        if(results.size() > 1){
-            ArrayList sortedResults = new ArrayList();
-            for(String rez : results){
-                sortedResults.add(Integer.valueOf(rez));
-            }
-
-            Collections.sort(sortedResults);
-            Collections.reverse(sortedResults);
-
-            results.clear();
-            for(int i = 0; i < sortedResults.size(); i++){
-                results.add(sortedResults.get(i).toString());
-            }
-        }
-
         Set<String> set  = new HashSet<String>();
         set.addAll(results);
 
@@ -212,6 +199,23 @@ public class MainActivity extends AppCompatActivity {
                 results.clear();
             }
             results=new ArrayList<String>(set);
+        }
+    }
+
+    public void SortResults(){
+        if(results.size() > 1){
+            ArrayList sortedResults = new ArrayList();
+            for(String rez : results){
+                sortedResults.add(Integer.valueOf(rez));
+            }
+
+            Collections.sort(sortedResults);
+            Collections.reverse(sortedResults);
+
+            results.clear();
+            for(int i = 0; i < sortedResults.size(); i++){
+                results.add(sortedResults.get(i).toString());
+            }
         }
     }
 }
