@@ -102,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void updateResultsToDisplay(int newPoints){
+        readDB();
         resultsToDisplay.clear();
         resultsToDisplayInt = new ArrayList();
         int resultDisplayNumber = 5;
@@ -132,35 +133,52 @@ public class MainActivity extends AppCompatActivity {
 
         } else if (results.size() > 0){
 
-            //limit to 10 results
+            //limit to resultDisplayNumber
             for(int i=0; i < resultDisplayNumber; i++){
                 if(results.size() > i){
                     resultsToDisplayInt.add(Integer.parseInt(results.get(i)));
                 } else {
                     break;
                 }
-            }
-            if(resultsToDisplayInt.size() > 1){
-                Collections.sort(resultsToDisplayInt);
-                Collections.reverse(resultsToDisplayInt);
-            }
+            }// nereikia nes jau sortintas po skaitymo atrodo
+//            if(resultsToDisplayInt.size() > 1){
+//                Collections.sort(resultsToDisplayInt);
+//                Collections.reverse(resultsToDisplayInt);
+//            }
 
             //search for position in list of results to set new result
             int idx = 0;
+            boolean equal = false;
             for (int i = 0; i < resultsToDisplayInt.size(); i++) {
                 idx++;
-                if (resultsToDisplayInt.get(i)<newPoints) {
+                if (resultsToDisplayInt.get(i)<=newPoints) {
+                    if (resultsToDisplayInt.get(i) == newPoints){
+                        equal = true;
+                    }
                     break;
                 }
+
             }
             // set new result before old one
             if(idx > 0){ idx--; }
             //resultsToDisplayInt.add(idx, newPoints);
+
+            boolean newIsAdded = false;
             for(int i=0; i < resultDisplayNumber; i++){
                 if(i == idx ){
-                    //TODO bug here overrides old with new one
-                    resultsToDisplay.add(idx,"New result Nr " + (i+1) + ":   " + newPoints);
-                    //resultsToDisplay.add("Nr " + (i+1) + ":   " + resultsToDisplayInt.get(i));
+                    if(equal){
+                        equal = false;
+                        newIsAdded = true;
+                        resultsToDisplay.add(idx,"New result Nr " + (i+1) + ":   " + newPoints);
+                    } else {
+                        if(newIsAdded){
+                            //TODO bug here overrides old with new one
+                            resultsToDisplay.add("Nr " + (i+1) + ":   " + resultsToDisplayInt.get(i));
+                        } else {
+                            resultsToDisplay.add(idx,"New result Nr " + (i+1) + ":   " + newPoints);
+                        }
+                    }
+
                 } else if(resultsToDisplayInt.size() > i){
                     resultsToDisplay.add("Nr " + (i+1) + ":   " + resultsToDisplayInt.get(i));
 

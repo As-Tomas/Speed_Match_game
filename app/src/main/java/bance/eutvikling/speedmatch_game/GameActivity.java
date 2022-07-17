@@ -32,7 +32,7 @@ import java.util.Random;
 //TODO user allow chose level time
 //TODO sounds on change fragment or push button
 public class GameActivity extends AppCompatActivity {
-    private int time = 5000; //60 seconds
+    private int time = 7000; //60 seconds
     private int points;
     private int incrementStep = 1;
     private int fiveInTheRow = 0;
