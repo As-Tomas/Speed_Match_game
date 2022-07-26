@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -78,6 +79,10 @@ public class GameActivity extends AppCompatActivity {
         };
         handler.postDelayed(runnable, 1200);
 
+        final MediaPlayer soundTrue = MediaPlayer.create(this, R.raw.state_change_confirm_up);
+        final MediaPlayer soundFalse = MediaPlayer.create(this, R.raw.state_change_confirm_down);
+        final MediaPlayer soundLevelUp = MediaPlayer.create(this, R.raw.hero_simple_celebration);
+
         Button btnNo = findViewById(R.id.btnNo);
         btnNo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +92,7 @@ public class GameActivity extends AppCompatActivity {
                     points += 1 * incrementStep;
                     fiveInTheRow++;
                     tenInTheRow++;
+                    soundTrue.start();
 
                     if(fiveInTheRow == 4){
                         incrementStep++;
@@ -95,6 +101,7 @@ public class GameActivity extends AppCompatActivity {
                     if(tenInTheRow == 10){
                         points += incrementStep * incrementStep;
                         tenInTheRow = 0;
+                        soundLevelUp.start();
                     }
 
                     //wrong
@@ -102,6 +109,7 @@ public class GameActivity extends AppCompatActivity {
                     totalWrong++;
                     fiveInTheRow = 0;
                     tenInTheRow = 0;
+                    soundFalse.start();
                 }
                 previousShape = shapeNumber;
                 shapeNumber = random.nextInt(max - min + 1) + min;
@@ -118,6 +126,7 @@ public class GameActivity extends AppCompatActivity {
                     points += 1 * incrementStep;
                     fiveInTheRow++;
                     tenInTheRow++;
+                    soundTrue.start();
 
                     if(fiveInTheRow == 4){
                         incrementStep++;
@@ -126,6 +135,7 @@ public class GameActivity extends AppCompatActivity {
                     if(tenInTheRow == 10){
                         points += incrementStep * incrementStep;
                         tenInTheRow = 0;
+                        soundLevelUp.start();
                     }
 
                     //wrong
@@ -133,6 +143,7 @@ public class GameActivity extends AppCompatActivity {
                     totalWrong++;
                     fiveInTheRow = 0;
                     tenInTheRow = 0;
+                    soundFalse.start();
                 }
                 previousShape = shapeNumber;
                 shapeNumber = random.nextInt(max - min + 1) + min;
